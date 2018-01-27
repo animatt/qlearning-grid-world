@@ -1,11 +1,7 @@
-#!/usr/local/bin/python3
-
-import RLtoolkit.Tiles.tiles as tiles
 from returnmatrix import returnmatrix
 from bound import bound
 import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image
 
 
 # print entire array
@@ -19,7 +15,8 @@ sz = (22, 18)
 start = [sz[0] - 1, np.arange(4, 8)]
 finish = [0, np.arange(10, 14)]
 
-# docs:  http://pillow.readthedocs.io/en/latest/reference/Image.html#PIL.Image.size
+# docs:
+# http://pillow.readthedocs.io/en/latest/reference/Image.html#PIL.Image.size
 im = returnmatrix(filename, sz, start, finish)
 
 # initialize agent (row, col[, step])
@@ -47,7 +44,7 @@ while converging:
     Q[SA] = Q[SA] + alpha * (R + gamma * np.max(Q[S2]) - Q[SA])
 
     episode_in_progress = True
-    while episode_in_progress :
+    while episode_in_progress:
         pos = S2
         S = tuple(pos)
         action = np.random.randint(4)
@@ -58,19 +55,20 @@ while converging:
         (episode_in_progress, S2) = bound(im, pos, pos + step)
         R = not episode_in_progress
 
-        Q[SA] = Q[SA] + alpha * (R + gamma * np.max(Q[S2[0], S2[1], :]) - Q[SA])
+        Q[SA] = Q[SA] + alpha * \
+            (R + gamma * np.max(Q[S2[0], S2[1], :]) - Q[SA])
 
         target_pol[S] = np.argmax(Q[S[0], S[1], :])
 
     count += 1
-    if count % 250 == 0 :
+    if count % 250 == 0:
         print('entered check')
         err = np.max(np.abs(Q - Qsave).ravel())
         print(err)
         print(Q)
-        if err < tolerance :
+        if err < tolerance:
             converging = False
-        else :
+        else:
             Qsave = Q.copy()
 
 
