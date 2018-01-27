@@ -64,8 +64,7 @@ while converging:
     if count % 250 == 0:
         print('entered check')
         err = np.max(np.abs(Q - Qsave).ravel())
-        print(err)
-        print(Q)
+        print('err =', err)
         if err < tolerance:
             converging = False
         else:
@@ -73,5 +72,4 @@ while converging:
 
 
 plt.imshow(target_pol)
-# plt.imshow(im, cmap = 'gray')
 plt.show()
